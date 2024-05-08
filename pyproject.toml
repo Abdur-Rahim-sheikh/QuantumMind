@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "quantum-mind"
+version = "0.1.0"
+description = ""
+authors = ["Abdur-Rahim-sheikh <abi.rahim.sheikh@gmail.com>"]
+readme = "README.md"
+packages = [{include = "quantum_mind"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
