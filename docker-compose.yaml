@@ -12,7 +12,7 @@ services:
       restart: always
       volumes:
         - ./accounts:/quantum-mind/accounts
-        - ./quantum_mind:/quantum-mind/quantum_mind
+        - ./public:/quantum-mind/public
       command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
       depends_on:
         - postgresql_db
