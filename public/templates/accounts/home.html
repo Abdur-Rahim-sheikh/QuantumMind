@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- generate a login page-->
+
+<div class="container card mt-4">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title text-center">Login</h5>
+            <div class="modal" id="new-assessment" tabindex="-1">
+                <div class="modal-dialog modal-dialog-centered">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Load New Assessment</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <form method="post" class="w-100">
+                            {% csrf_token %}
+                            <div class="modal-body
+                            ">
+                            <div class="row">
+                                <div class="col">
+                                    <input type="text" class="form-control w-100" name="tenant" placeholder="Tenant"
+                                           aria-label="Tenant">
+                                </div>
+                                <div class="col">
+                                    <input type="text" class="form-control" name="test-id" placeholder="Test ID"
+                                           aria-label="Test ID">
+                                </div>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="reset" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
