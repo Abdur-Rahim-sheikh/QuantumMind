@@ -76,21 +76,22 @@ WSGI_APPLICATION = "quantum_mind.wsgi.application"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 if env.bool("USE_LOCAL_DB", True):
-    print("Using postgres")
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.postgresql",
-            "NAME": "quantum_mind",
-            "USER": "abir",
-            "PASSWORD": "password",
-        }
-    }
-else:
-    print("Using local database", env.bool("USE_LOCAL_DB"))
     DATABASES = {
         "default": {
             "ENGINE": "django.db.backends.sqlite3",
             "NAME": BASE_DIR / "db.sqlite3",
+        }
+    }
+
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": env.str("POSTGRES_DB"),
+            "USER": env.str("POSTGRES_USER"),
+            "PASSWORD": env.str("POSTGRES_PASSWORD"),
+            "HOST": env.str("POSTGRES_HOST"),
+            "PORT": env.int("POSTGRES_PORT"),
         }
     }
 
