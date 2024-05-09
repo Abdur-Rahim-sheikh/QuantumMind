@@ -8,4 +8,5 @@ class Account(BaseModel):
     last_name: str
     email: Optional[EmailStr]
     password: SecretStr
+    user_name: str
     is_superuser: bool = False

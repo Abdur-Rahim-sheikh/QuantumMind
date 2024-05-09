@@ -13,5 +13,6 @@ class AccountAdmin(admin.ModelAdmin):
         "last_name",
         "email",
         "password",
+        "user_name",
         "is_superuser",
     )

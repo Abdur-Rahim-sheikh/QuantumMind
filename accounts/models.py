@@ -7,6 +7,7 @@ class Account(models.Model):
     last_name = models.CharField(max_length=100)
     email = models.EmailField(max_length=100, unique=True, null=True)
     password = models.CharField(max_length=100)
+    user_name = models.CharField(max_length=100, unique=True)
     is_superuser = models.BooleanField(default=False)
 
     def __str__(self):
