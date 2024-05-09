@@ -12,7 +12,7 @@ services:
       restart: always
       volumes:
         - ./accounts:/quantum-mind/accounts
-        - ./project:/quantum-mind/project
+        - ./public:/quantum-mind/public
         - ./project:/quantum-mind/project
       command: sh -c "python3 manage.py migrate && python3 manage.py runserver 0.0.0.0:8000"
       depends_on:

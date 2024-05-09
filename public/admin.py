@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from accounts.models import Account
+from public.models import Account
 
 admin.site.site_header = "Quantum Mind"
 # Register your models here.
