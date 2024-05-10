@@ -71,20 +71,44 @@
     }
 
     .wrapper .btn {
-    box-shadow: none;
-    width: 100%;
-    height: 40px;
-    background-color: #03A9F4;
-    color: #fff;
-    border-radius: 25px;
-    box-shadow: 3px 3px 3px #b1b1b1,
-    -3px -3px 3px #fff;
-    letter-spacing: 1.3px;
+        box-shadow: none;
+        width: 100%;
+        height: 40px;
+        background-color: #03A9F4;
+        color: #fff;
+        border-radius: 25px;
+        box-shadow: 3px 3px 3px #b1b1b1,
+        -3px -3px 3px #fff;
+        letter-spacing: 1.3px;
     }
 
-    .wrapper .btn:hover {
-    background-color: #039BE5;
+    .wrapper .btn-primary {
+        --btn-color: #007bff;
+        background-color: var(--btn-color);
+        border-color: var(--btn-color);
+        color: #fff;
     }
+
+    .wrapper .btn-danger {
+        --btn-color: #dc3545;
+        background-color: var(--btn-color);
+        border-color: var(--btn-color);
+        color: #fff;
+    }
+    .wrapper .btn-success {
+        --btn-color: #28a745;
+        background-color: var(--btn-color);
+        border-color: var(--btn-color);
+        color: #fff;
+    }
+
+    .wrapper .btn-primary:hover,
+    .wrapper .btn-danger:hover,
+    .wrapper .btn-success:hover {
+        background-color: brightness(var(--btn-color), 0.8);
+        border-color: brightness(var(--btn-color), 0.8);
+    }
+
 
     .wrapper a {
     text-decoration: none;
