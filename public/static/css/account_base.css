@@ -102,11 +102,8 @@
         color: #fff;
     }
 
-    .wrapper .btn-primary:hover,
-    .wrapper .btn-danger:hover,
-    .wrapper .btn-success:hover {
-        background-color: brightness(var(--btn-color), 0.8);
-        border-color: brightness(var(--btn-color), 0.8);
+    .wrapper .btn:hover{
+        filter: brightness(1.2);
     }
 
 
