@@ -28,7 +28,7 @@ class AccountRegister(View):
         else:
             for field in form:
                 for error in field.errors:
-                    messages.warning(request, f"{field.label}: {error}")
+                    logger.error(f"Signup Error: {error}")
             messages.warning(request, "Could not create account")
             return redirect("public:signup")
         return redirect("public:login")
