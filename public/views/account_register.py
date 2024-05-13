@@ -1,9 +1,9 @@
+import logging
+
+from django.contrib import messages
+from django.contrib.auth.forms import UserCreationForm
 from django.shortcuts import render, redirect
 from django.views import View
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib import messages
-import logging
-from django.contrib.auth.models import User
 
 logger = logging.getLogger(__name__)
 

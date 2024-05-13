@@ -8,10 +8,11 @@
     <div class="text-center mt-4 name">
         Quantum Mind
     </div>
-    <form class="p-3 mt-3">
+    <form class="p-3 mt-3" method="POST">
+        {% csrf_token %}
         <div class="form-field d-flex align-items-center">
             <span class="far fa-user"></span>
-            <input type="text" name="userName" id="user-name" placeholder="Username">
+            <input type="text" name="userNameOrEmail" id="user-name" placeholder="Username/Email">
         </div>
         <div class="form-field d-flex align-items-center">
             <span class="fas fa-key"></span>
