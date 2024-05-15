@@ -25,9 +25,9 @@
     </div>
     <span class="d-block text-center my-4 text-muted">— or —</span>
     <div class="mt-3">
-        <a type="button" class="btn btn-danger mt-3 pt-2" style="text-align:start" href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }} %}"><i class="bi bi-facebook"></i> Login with facebook</a>
-        <button class="btn btn-primary mt-3" style="text-align:start"><i class="bi bi-google"></i> Login with google</button>
-        <button class="btn btn-success mt-3" style="text-align:start"><i class="bi bi-github"></i> Login with github</button>
+<!--        <a type="button" class="btn btn-danger mt-3 pt-2" style="text-align:start" href="#"><i class="bi bi-facebook"></i> Login with facebook</a>-->
+        <a type="button" class="btn btn-danger mt-3 pt-2" style="text-align:start" href="{% url 'social:begin' 'google-oauth2' %}"><i class="bi bi-google"></i> Login with google</a>
+<!--        <button class="btn btn-success mt-3" style="text-align:start"><i class="bi bi-github"></i> Login with github</button>-->
     </div>
 </div>
 {% endblock content %}

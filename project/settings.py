@@ -29,7 +29,7 @@ SECRET_KEY = "django-insecure-b2b+-3^-q_y6)0(5@!-ikgv^^(drv^l_7(m_tlig_+xb2lc9-l
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+SESSION_COOKIE_DOMAIN = ".localhost"
 
 # Application definition
 SITE_ID = 2
