@@ -26,6 +26,21 @@ services:
       networks:
         - quantum-mind-net
 
+    ollama:
+      image: ollama/ollama:latest
+      restart: always
+      ports:
+        - "${OLLAMA_PORT}:11434"
+      env_file: .env
+      deploy:
+        resources:
+          reservations:
+            devices:
+              - driver: nvidia
+                capabilities: [gpu]
+      networks:
+          - quantum-mind-net
+
 volumes:
   postgresql_db_data:
 
