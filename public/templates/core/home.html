@@ -3,7 +3,20 @@
 {% block content %}
 <!-- generate a login page-->
 <div class="mt-3">
-    <h1>Successfully logged in.</h1>
+    <div class="row row-cols-1 row-cols-md-2 g-4">
+        {%for key, web_app in web_apps.items%}
+        <div class="col position-relative">
+            <div class="card">
+                <img src="..." class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{web_app.name}}</h5>
+                    <p class="card-text">{{web_app.description}} - public:{{web_app.redirect_url}}</p>
+                    <a href="{% url 'public:' web_app.redirect_url %}" class="btn btn-primary">Go to {{web_app.name}}</a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
 </div>
 
 {% endblock content %}
