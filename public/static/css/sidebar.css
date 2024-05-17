@@ -26,9 +26,6 @@ body {
 
 .sidebar_wrapper {
     display: flex;
-}
-
-.main {
     min-height: 92vh;
     width: 100%;
     overflow: hidden;
