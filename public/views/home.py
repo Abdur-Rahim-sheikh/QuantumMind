@@ -9,6 +9,7 @@ class Home(View):
     def get(self, request):
         web_apps = {
             "talk_to_ai": {
+                "icon": "bi bi-chat-fill",
                 "name": "Talk to AI",
                 "description": "Talk to AI is a web application that allows you to talk to an AI.",
                 "redirect_url": reverse("public:talk-to-ai"),
