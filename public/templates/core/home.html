@@ -12,7 +12,7 @@
                     <h5 class="card-title">{{web_app.name}}</h5>
                     <p class="card-text">{{web_app.description}} - public:{{web_app.redirect_url}}</p>
 <!--                    redirect url not working, start here-->
-                    <a href="{% url 'public:' web_app.redirect_url %}" class="btn btn-primary">Go to {{web_app.name}}</a>
+                    <a href="{{ web_app.redirect_url }}" class="btn btn-primary">Go to {{web_app.name}}</a>
                 </div>
             </div>
         </div>

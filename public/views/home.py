@@ -1,5 +1,5 @@
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import render, reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -11,7 +11,7 @@ class Home(View):
             "talk_to_ai": {
                 "name": "Talk to AI",
                 "description": "Talk to AI is a web application that allows you to talk to an AI.",
-                "redirect_url": "talk-to-ai",
+                "redirect_url": reverse("public:talk-to-ai"),
             },
         }
 
