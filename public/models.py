@@ -12,3 +12,16 @@ class Account(models.Model):
 
     def __str__(self):
         return str(self.first_name) + " " + str(self.last_name)
+
+
+class App(models.Model):
+    name = models.CharField(max_length=100)
+    description = models.TextField()
+    version = models.CharField(max_length=100, null=True)
+    redirect_uri = models.TextField(help_text="Redirect URI for the app")
+    img_base64 = models.TextField(
+        null=True, blank=True, help_text="Base64 image of the app icon"
+    )
+
+    def __str__(self):
+        return str(self.name) + " " + str(self.version)
