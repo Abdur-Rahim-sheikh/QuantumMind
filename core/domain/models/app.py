@@ -8,7 +8,7 @@ class App(BaseModel):
     name: str
     description: str
     version: Optional[str] = None
-    redirect_uri: str
+    url: str
     img_base64: Optional[str] = None
 
     @classmethod

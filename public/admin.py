@@ -24,6 +24,6 @@ class AppAdmin(admin.ModelAdmin):
         "name",
         "description",
         "version",
-        "redirect_uri",
+        "redirect_url",
         "img_base64",
     )
