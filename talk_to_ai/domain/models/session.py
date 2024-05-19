@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class ChatSession(BaseModel):
+class Session(BaseModel):
     user_id: int
     chat_id: int
     chat_name: str
