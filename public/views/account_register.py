@@ -1,7 +1,7 @@
 import logging
 
 from django.contrib import messages
-from django.contrib.auth.forms import UserCreationForm
+from ..forms import AccountCreationForm
 from django.shortcuts import render, redirect
 from django.views import View
 
@@ -13,7 +13,7 @@ class AccountRegister(View):
         return render(request, "accounts/register.html")
 
     def post(self, request):
-        form = UserCreationForm(
+        form = AccountCreationForm(
             {
                 "username": request.POST.get("userName"),
                 "password1": request.POST.get("password"),
@@ -28,7 +28,7 @@ class AccountRegister(View):
         else:
             for field in form:
                 for error in field.errors:
-                    logger.error(f"Signup Error: {error}")
+                    logger.error(f"Signup Error: {field.name=}\n{error=}")
             messages.warning(request, "Could not create account")
             return redirect("public:signup")
         return redirect("public:login")
