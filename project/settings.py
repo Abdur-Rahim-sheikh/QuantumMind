@@ -158,6 +158,7 @@ AUTHENTICATION_BACKENDS = [
     "django.contrib.auth.backends.ModelBackend",
 ]
 
+AUTH_USER_MODEL = "public.Account"
 LOGIN_REDIRECT_URL = "public:home"
 LOGOUT_REDIRECT_URL = "public:login"
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = (
