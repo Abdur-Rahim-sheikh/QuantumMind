@@ -9,14 +9,29 @@ class DefaultSessionRepository(SessionRepository):
         DBSession.objects.create(user_id=user_id, chat_name=session_name)
         DBSession.objects.save()
 
-    def get(self, session_id: int) -> Session:
+    def get(self, user_id: int, session_id: int) -> Session:
         pass
 
-    def get_all(self) -> list[Session]:
+    def get_all(self, user_id: int) -> list[Session]:
+        rows = DBSession.objects.get(user_id=user_id)
+
+        info = []
+        for row in rows:
+            conversation = [
+                [conv.role, conv.message] for conv in row.conversation_set.all()
+            ]
+            info.append(
+                Session(
+                    chat_id=row.id,
+                    user_id=row.user_id,
+                    chat_name=row.chat_name,
+                    conversations=conversation,
+                )
+            )
+        return info
+
+    def update(self, user_id: int, session: Session):
         pass
 
-    def update(self, session: Session):
-        pass
-
-    def delete(self, session_id):
+    def delete(self, user_id: int, session_id: int):
         pass

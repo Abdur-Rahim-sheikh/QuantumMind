@@ -7,5 +7,5 @@ from ..repository import SessionRepository
 class GetAllSessionUseCase(BaseModel):
     repository: InstanceOf[SessionRepository]
 
-    def __call__(self) -> list[Session]:
-        return self.repository.get_all()
+    def __call__(self, user_id: int) -> list[Session]:
+        return self.repository.get_all(user_id=user_id)
