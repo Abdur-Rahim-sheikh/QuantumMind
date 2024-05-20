@@ -33,7 +33,6 @@ class AppAdmin(admin.ModelAdmin):
 class ChatSessionAdmin(admin.ModelAdmin):
     list_display = (
         "user",
-        "chat_id",
         "chat_name",
     )
 
