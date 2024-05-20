@@ -27,12 +27,21 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-b2b+-3^-q_y6)0(5@!-ikgv^^(drv^l_7(m_tlig_+xb2lc9-l"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool("DEBUG", default=False)
 
 SESSION_COOKIE_DOMAIN = ".localhost"
 
 # Application definition
 SITE_ID = 2
+
+if DEBUG:
+    import socket
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS = [ip[: ip.rfind(".")] + ".1" for ip in ips] + [
+        "127.0.0.1",
+        "10.0.2.2",
+    ]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -112,6 +121,25 @@ else:
         }
     }
 
+# Logger
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "level": "DEBUG" if DEBUG else "INFO",
+            "formatter": "verbose",
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {"handlers": ["console"], "level": "DEBUG" if DEBUG else "INFO"},
+    "formatters": {
+        "verbose": {
+            "format": "%(levelname)s %(asctime)s %(module)s {funcName}({lineno}) %(message)s",
+            "style": "{",
+        }
+    },
+}
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
 
