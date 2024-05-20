@@ -30,7 +30,6 @@ class Home(View):
         #     },
         # }
 
-        print(f"{web_apps=}, {apps[0].redirect_url=}, {reverse(apps[0].redirect_url)=}")
         logger.debug("web_apps", web_apps)
 
         return render(request, "core/home.html", {"web_apps": web_apps})
