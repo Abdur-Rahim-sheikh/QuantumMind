@@ -1,1 +1,1 @@
-from .session_api import SessionAPI
+from .sessions_api import SessionsAPI

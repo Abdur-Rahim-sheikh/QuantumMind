@@ -1,8 +1,10 @@
 from public.models import ChatSession as DBSession
+from public.utils import singleton
 from talk_to_ai.domain.models import Session
 from talk_to_ai.domain.repository import SessionRepository
 
 
+@singleton
 class DefaultSessionRepository(SessionRepository):
     def create(self, user_id: int, session_name: str):
         # check if user id is valid
