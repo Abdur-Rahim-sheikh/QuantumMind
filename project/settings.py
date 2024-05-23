@@ -135,7 +135,7 @@ LOGGING = {
     "root": {"handlers": ["console"], "level": "DEBUG" if DEBUG else "INFO"},
     "formatters": {
         "verbose": {
-            "format": "%(levelname)s %(asctime)s %(module)s {funcName}({lineno}) %(message)s",
+            "format": "{levelname} - {asctime} - {module} - {funcName}({lineno}) {message}",
             "style": "{",
         }
     },
