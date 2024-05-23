@@ -15,7 +15,10 @@ class DefaultSessionRepository(SessionRepository):
         pass
 
     def get_all(self, user_id: int) -> list[Session]:
-        rows = DBSession.objects.get(user_id=user_id)
+        try:
+            rows = DBSession.objects.get(user_id=user_id)
+        except DBSession.DoesNotExist:
+            return []
 
         info = []
         for row in rows:
