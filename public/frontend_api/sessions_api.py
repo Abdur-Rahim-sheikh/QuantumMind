@@ -20,7 +20,14 @@ class SessionsAPI(View):
         )
 
     def post(self, request):
-        pass
+        user_id = request.user.id
+        data = request.data
+        session_name = data.get("session_name")
+        self.__use_case.create_session(user_id=user_id, session_name=session_name)
+        return json_response(
+            success=True,
+            message="Successfully created the session",
+        )
 
 
 # Path: public/frontend_api/emma_gpt_question_api.py

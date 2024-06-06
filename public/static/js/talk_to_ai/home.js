@@ -1,4 +1,8 @@
-
+document.getElementById('create-session').addEventListener('click', async () => {
+    const session_name = 'Session ' + Math.floor(Math.random() * 1000);
+    const data = await createSession(session_name);
+    console.log(data);
+});
 
 const getSessions = async () => {
     const response = await fetch('/frontend-api/v1/sessions');
@@ -31,7 +35,7 @@ const createSession = async (session_name) => {
 const renderSessions = async () => {
     const sessions = await getSessions();
     console.log(sessions);
-    sessions.ForEach(session => {
+    sessions.forEach(session => {
         addSessionToTab(session.name);
     });
 }
