@@ -1,3 +1,5 @@
+let selected_session_id = null;
+
 document.getElementById('create-session').addEventListener('click', async () => {
     const session_name = 'Session ' + Math.floor(Math.random() * 1000);
     const data = await createSession(session_name);
@@ -9,9 +11,41 @@ const getSessions = async () => {
 
     return responseData.data.sessions;
 }
-const addSession = async (session_name, conversations=null) => {
+
+const buildConversation = (session_id, conversations) => {
+    let conversationContainer = document.createElement('div');
+    conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
+    conversationContainer.id = session_id;
+    conversations.forEach(message => {
+        let messageContainer = document.createElement('div');
+        messageContainer.classList.add('message-container');
+        messageContainer.innerHTML = `<div class="message">${message.text}</div>`;
+        conversationContainer.appendChild(messageContainer);
+    })
+    return conversationContainer;
+}
+const selectSession = (session_id) => {
+    if (selected_session_id != null){
+        let oldSession = document.getElementById(`tab-${selected_session_id}`);
+        oldSession.style.fontWeight = 'normal';
+        let oldConversation = document.getElementById(selected_session_id);
+        oldConversation.classList.add('d-none');
+    }
+    let currentSession = document.getElementById(`tab-${session_id}`);
+    currentSession.style.fontWeight = 'bold';
+    let currentConversation = document.getElementById(session_id);
+    currentSession.classList.remove('d-none');
+
+    selected_session_id = session_id;
+//    make it's text bold
+}
+const addSession = async (session_id, session_name, conversations=[]) => {
+    const sessionContainer = document.getElementById('conversation-container');
+    let session = await buildConversation(session_id, conversations);
+    sessionContainer.appendChild(session);
     const sessionTabs = document.getElementById('session-tabs');
     let tab = document.createElement('li');
+    tab.id = `tab-${session_id}`;
 
     tab.classList.add('sidebar-item');
 
@@ -19,11 +53,13 @@ const addSession = async (session_name, conversations=null) => {
                         <i class="bi bi-chat-left-text"></i>
                         <span>${session_name}<span>
                     </a>`;
+    tab.addEventListener('click', () => {
+        selectSession(session_id);
+    });
     sessionTabs.appendChild(tab);
+    selectSession(session_id);
 }
 const createSession = async (session_name) => {
-    addSession(session_name);
-//    add csrf
     const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
     const response = await fetch('/frontend-api/v1/sessions', {
@@ -35,15 +71,18 @@ const createSession = async (session_name) => {
 
         body: JSON.stringify({ session_name })
     });
-    const data = await response.json();
-    return data;
+
+    const responseData = await response.json();
+
+    addSession(responseData.data.session_id, session_name);
+    return;
 }
 
 const renderSessions = async () => {
     const sessions = await getSessions();
     for(let [id, session] of Object.entries(sessions)) {
 
-        addSession(session.name, session.conversations);
+        addSession(id,session.name, session.conversations);
     }
 }
 

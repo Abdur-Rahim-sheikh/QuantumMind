@@ -20,7 +20,7 @@ class SessionsAPI(View):
         sessions = self.__use_case.get_all_sessions(user_id=user_id)
         data = dict()
         for session in sessions:
-            data[session.chat_id] = {
+            data[session.id] = {
                 "name": session.name,
                 "conversations": session.conversations,
             }
@@ -35,10 +35,13 @@ class SessionsAPI(View):
         data = json.loads(request.body)
         session_name = data.get("session_name")
         logger.debug(f"{user_id=} creating a session {session_name=}")
-        self.__use_case.create_session(user_id=user_id, session_name=session_name)
+        session = self.__use_case.create_session(
+            user_id=user_id, session_name=session_name
+        )
         return json_response(
             success=True,
             message="Successfully created the session",
+            data={"session_id": session.id},
         )
 
 

@@ -14,7 +14,7 @@ class DefaultSessionRepository(SessionRepository):
         # check if user id is valid
         session = DBSession.objects.create(user_id=user_id, chat_name=session_name)
         return Session(
-            chat_id=session.id,
+            id=session.id,
             user_id=session.user_id,
             name=session.chat_name,
             conversations=session.conversations,
@@ -33,7 +33,7 @@ class DefaultSessionRepository(SessionRepository):
         for row in rows:
             sessions.append(
                 Session(
-                    chat_id=row.id,
+                    id=row.id,
                     user_id=row.user_id,
                     name=row.chat_name,
                     conversations=row.conversations,
