@@ -10,9 +10,15 @@ logger = logging.getLogger(__name__)
 
 @singleton
 class DefaultSessionRepository(SessionRepository):
-    def create(self, user_id: int, session_name: str):
+    def create(self, user_id: int, session_name: str) -> Session:
         # check if user id is valid
-        DBSession.objects.create(user_id=user_id, chat_name=session_name)
+        session = DBSession.objects.create(user_id=user_id, chat_name=session_name)
+        return Session(
+            chat_id=session.id,
+            user_id=session.user_id,
+            name=session.chat_name,
+            conversations=session.conversations,
+        )
 
     def get(self, user_id: int, session_id: int) -> Session:
         pass

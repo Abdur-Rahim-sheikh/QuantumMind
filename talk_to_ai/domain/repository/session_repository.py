@@ -5,7 +5,7 @@ from ..models import Session
 
 class SessionRepository(ABC):
     @abstractmethod
-    def create(self, user_id: int, session_name: str):
+    def create(self, user_id: int, session_name: str) -> Session:
         pass
 
     @abstractmethod
