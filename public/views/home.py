@@ -11,7 +11,6 @@ logger = logging.getLogger(__name__)
 @method_decorator(login_required(login_url="/login/"), name="dispatch")
 class Home(View):
     def get(self, request):
-        print(f"Home View")
         apps = App.objects.all()
         web_apps = {}
         for app in apps:

@@ -3,7 +3,8 @@
 <link rel="stylesheet" href="{% static 'css/sidebar.css' %}">
 {% endblock style %}
 {% block content %}
-
+<!--add csrf to this page-->
+{% csrf_token %}
 <div class="sidebar_wrapper">
     {% include 'partials/sidebar_aside_content.html' %}
     <div class="container position-absolute bottom-0 end-0 p-3" style="z-index: 11">

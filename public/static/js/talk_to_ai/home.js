@@ -1,31 +1,38 @@
 document.getElementById('create-session').addEventListener('click', async () => {
     const session_name = 'Session ' + Math.floor(Math.random() * 1000);
     const data = await createSession(session_name);
-    console.log(data);
 });
 
 const getSessions = async () => {
     const response = await fetch('/frontend-api/v1/sessions');
     const responseData = await response.json();
-    console.log(responseData.data.sessions);
+
     return responseData.data.sessions;
 }
-const addSessionToTab = async (session_name) => {
+const addSession = async (session_name, conversations=null) => {
     const sessionTabs = document.getElementById('session-tabs');
     let tab = document.createElement('li');
 
-    tab.classList.add('nav-item');
-    tab.innerHTML = `<a class="nav-link" href="#">${session_name}</a>`;
-    sessionTabs.appendChild(sessionTab);
+    tab.classList.add('sidebar-item');
+
+    tab.innerHTML = `<a class="sidebar-link" href="#">
+                        <i class="bi bi-chat-left-text"></i>
+                        <span>${session_name}<span>
+                    </a>`;
+    sessionTabs.appendChild(tab);
 }
 const createSession = async (session_name) => {
-    addSessionToTab(session_name);
+    addSession(session_name);
+//    add csrf
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
 
     const response = await fetch('/frontend-api/v1/sessions', {
         method: 'POST',
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
         },
+
         body: JSON.stringify({ session_name })
     });
     const data = await response.json();
@@ -34,10 +41,10 @@ const createSession = async (session_name) => {
 
 const renderSessions = async () => {
     const sessions = await getSessions();
-    console.log(sessions);
-    sessions.forEach(session => {
-        addSessionToTab(session.name);
-    });
+    for(let [id, session] of Object.entries(sessions)) {
+
+        addSession(session.name, session.conversations);
+    }
 }
 
 renderSessions();
