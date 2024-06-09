@@ -34,4 +34,5 @@ class ChatSessionAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "chat_name",
+        "conversations",
     )

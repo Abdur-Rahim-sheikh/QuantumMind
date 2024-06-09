@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-@method_decorator(login_required(login_url="/login/"), name="dispatch")
+@method_decorator(login_required(login_url="/login"), name="dispatch")
 class Home(View):
     def get(self, request):
         apps = App.objects.all()
