@@ -1,7 +1,8 @@
-from django.views import View
 from django.shortcuts import render
-from services.di import UseCase
+from django.views import View
+
 from public.utils import json_response
+from services.di import UseCase
 
 
 class TalkToAI(View):
@@ -14,15 +15,19 @@ class TalkToAI(View):
 
     def post(self, request):
         try:
-            message = request.POST.get("message")
+            session_id = request.POST.get("session_id")
+            query = request.POST.get("query")
         except RuntimeError as e:
-            return render(request, "talk_to_ai/home.html", {"error": "Invalid message"})
+            return render(
+                request, "talk_to_ai/home.html", {"error": f"Invalid message {e}"}
+            )
 
-        msg = self.__use_case.chat_generate_use_case(input_text=message)
+        msg = self.__use_case.chat_generate_use_case(input_text=query)
         return json_response(
-            message="success",
+            message="successfully generated response",
             data={
                 "response": msg,
             },
             status_code=200,
+            success=True,
         )

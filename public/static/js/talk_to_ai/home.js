@@ -1,26 +1,56 @@
 let selected_session_id = null;
+document.getElementById('query-submit').addEventListener('click', async () => {
+    const query = document.getElementById('query').value;
+    const session_id = selected_session_id;
+    conversationContainer.appendChild(getMessageBox(query), userData=true);
+    const responseData = await askQuestion(session_id, query);
+    const conversationContainer = document.getElementById(session_id);
+    conversationContainer.appendChild(getMessageBox(responseData.data.response));
 
+});
 document.getElementById('create-session').addEventListener('click', async () => {
     const session_name = 'Session ' + Math.floor(Math.random() * 1000);
     const data = await createSession(session_name);
 });
 
+
+const askQuestion = async (session_id, query) => {
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const response = await fetch('/talk-to-ai', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({
+            "session_id": session_id,
+            "query": query
+        })
+    });
+    const responseData = await response.json();
+    return responseData;
+}
 const getSessions = async () => {
     const response = await fetch('/frontend-api/v1/sessions');
     const responseData = await response.json();
 
     return responseData.data.sessions;
 }
-
+const getMessageBox = (text, userData=false) => {
+    let messageContainer = document.createElement('div');
+    messageContainer.classList.add('message-container');
+    messageContainer.innerHTML = `<div class="message">${text}</div>`;
+    if (userData){
+        messageContainer.style.textAlign = 'right';
+    }
+    return messageContainer;
+}
 const buildConversation = (session_id, conversations) => {
     let conversationContainer = document.createElement('div');
     conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
     conversationContainer.id = session_id;
     conversations.forEach(message => {
-        let messageContainer = document.createElement('div');
-        messageContainer.classList.add('message-container');
-        messageContainer.innerHTML = `<div class="message">${message.text}</div>`;
-        conversationContainer.appendChild(messageContainer);
+        conversationContainer.appendChild(getMessageBox(message));
     })
     return conversationContainer;
 }
