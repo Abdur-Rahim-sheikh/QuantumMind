@@ -23,3 +23,7 @@ class SessionRepository(ABC):
     @abstractmethod
     def delete(self, user_id: int, session_id: int):
         pass
+
+    @abstractmethod
+    def exists(self, user_id: int, session_id: int) -> bool:
+        pass
