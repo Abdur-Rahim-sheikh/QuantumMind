@@ -42,6 +42,7 @@ class SessionsAPI(View):
             success=True,
             message="Successfully created the session",
             data={"session_id": session.id},
+            status_code=201,
         )
 
 

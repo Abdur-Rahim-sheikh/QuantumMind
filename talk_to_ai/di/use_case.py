@@ -1,5 +1,9 @@
 from .repository import Repository
-from ..domain.use_case import GetAllSessionUseCase, CreateSessionUseCase
+from ..domain.use_case import (
+    GetAllSessionUseCase,
+    CreateSessionUseCase,
+    GetSessionUseCase,
+)
 
 
 class UseCase:
@@ -13,3 +17,7 @@ class UseCase:
     @property
     def create_session(self) -> CreateSessionUseCase:
         return CreateSessionUseCase(repository=self.__repository.session_repository)
+
+    @property
+    def get_session(self) -> GetSessionUseCase:
+        return GetSessionUseCase(repository=self.__repository.session_repository)
