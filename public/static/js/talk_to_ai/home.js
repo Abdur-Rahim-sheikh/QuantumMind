@@ -1,12 +1,7 @@
 let selected_session_id = null;
-document.getElementById('query-submit').addEventListener('click', async () => {
+document.getElementById('query-submit-button').addEventListener('click', async () => {
     const query = document.getElementById('query').value;
-    const session_id = selected_session_id;
-    conversationContainer.appendChild(getMessageBox(query), userData=true);
-    const responseData = await askQuestion(session_id, query);
-    const conversationContainer = document.getElementById(session_id);
-    conversationContainer.appendChild(getMessageBox(responseData.data.response));
-
+    addAIResponse(query);
 });
 document.getElementById('create-session').addEventListener('click', async () => {
     const session_name = 'Session ' + Math.floor(Math.random() * 1000);
@@ -36,24 +31,7 @@ const getSessions = async () => {
 
     return responseData.data.sessions;
 }
-const getMessageBox = (text, userData=false) => {
-    let messageContainer = document.createElement('div');
-    messageContainer.classList.add('message-container');
-    messageContainer.innerHTML = `<div class="message">${text}</div>`;
-    if (userData){
-        messageContainer.style.textAlign = 'right';
-    }
-    return messageContainer;
-}
-const buildConversation = (session_id, conversations) => {
-    let conversationContainer = document.createElement('div');
-    conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
-    conversationContainer.id = session_id;
-    conversations.forEach(message => {
-        conversationContainer.appendChild(getMessageBox(message));
-    })
-    return conversationContainer;
-}
+
 const selectSession = (session_id) => {
     if (selected_session_id != null){
         let oldSession = document.getElementById(`tab-${selected_session_id}`);
@@ -107,7 +85,31 @@ const createSession = async (session_name) => {
     addSession(responseData.data.session_id, session_name);
     return;
 }
-
+const getMessageBox = (text, userData=false) => {
+    let messageContainer = document.createElement('div');
+    messageContainer.classList.add('message-container');
+    messageContainer.innerHTML = `<div class="message">${text}</div>`;
+    if (userData){
+        messageContainer.style.textAlign = 'right';
+    }
+    return messageContainer;
+}
+const buildConversation = (session_id, conversations) => {
+    let conversationContainer = document.createElement('div');
+    conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
+    conversationContainer.id = session_id;
+    conversations.forEach(message => {
+        conversationContainer.appendChild(getMessageBox(message));
+    })
+    return conversationContainer;
+}
+const addAIResponse = async (query) => {
+    const session_id = selected_session_id;
+    const conversationContainer = document.getElementById(session_id);
+    conversationContainer.appendChild(getMessageBox(query), userData=true);
+    const responseData = await askQuestion(session_id, query);
+    conversationContainer.appendChild(getMessageBox(responseData.data.response));
+}
 const renderSessions = async () => {
     const sessions = await getSessions();
     for(let [id, session] of Object.entries(sessions)) {
