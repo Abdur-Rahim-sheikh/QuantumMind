@@ -1,21 +1,31 @@
+import logging
 from typing import Optional
 
-from services.domain.repository import ChatRepository
 import requests
+from requests.exceptions import ConnectionError, Timeout, RequestException
+
+from services.domain.repository import ChatRepository
+
+logger = logging.getLogger(__name__)
 
 
 class DefaultOllamaNoStream(ChatRepository):
-    def __init__(self, host: str, model: str = "llama3"):
+    def __init__(self, host: str, model: str = "gemma:2b"):
         self.host = host
         self.model = model
 
-    def setModel(self, model: str) -> None:
+    def set_model(self, model: str) -> None:
         self.model = model
 
     def generate(self, input_text: str) -> str:
         url = f"{self.host}/api/generate"
         data = {"model": self.model, "prompt": input_text, "stream": False}
-        response = requests.post(url, json=data)
+        logger.debug(f"logged -> {url=}, {data=}")
+        try:
+            response = requests.post(url, json=data)
+        except (ConnectionError, Timeout, RequestException) as e:
+            raise RuntimeError(f"Could not generate model response: {e}")
+
         return response.json()["response"]
 
     def complete(self, chat_history: list[str], context: str) -> str:
@@ -25,21 +35,22 @@ class DefaultOllamaNoStream(ChatRepository):
             role = "assistant" if (idx & 1) else "user"
             messages.append({"role": role, "content": message})
         messages.append({"role": "user", "content": context})
-        data = {"model": self.model, "messages": messages}
+        data = {"model": self.model, "messages": messages, "stream": False}
         try:
             response = requests.post(url, json=data)
-        except requests.exceptions.RequestException as e:
-            raise RuntimeError(f"Could not ask the question: {e}")
+        except (ConnectionError, Timeout, RequestException) as e:
+            raise RuntimeError(f"Could not complete ai chat: {e}")
+
         return response.json()["response"]
 
     def create_model(self, model_name: str, parameters: dict) -> str:
         pass
 
     def list_local_models(self) -> list[dict]:
-        url = f"{self.host}/api/models"
+        url = f"{self.host}/api/tags"
         try:
             response = requests.get(url)
-        except requests.exceptions.RequestException as e:
+        except (RequestException, ConnectionError, Timeout) as e:
             raise RuntimeError(f"Could not list local models: {e}")
         return response.json()["models"]
 
@@ -50,7 +61,7 @@ class DefaultOllamaNoStream(ChatRepository):
         data = {"name": model_name}
         try:
             response = requests.post(url, json=data)
-        except requests.exceptions.RequestException as e:
+        except (ConnectionError, Timeout, RequestException) as e:
             raise RuntimeError(f"Could not show model information: {e}")
         return response.json()
 

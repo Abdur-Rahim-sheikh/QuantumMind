@@ -3,6 +3,10 @@ from django.views import View
 
 from public.utils import json_response
 from services.di import UseCase
+import json
+import logging
+
+logger = logging.getLogger(__name__)
 
 
 class TalkToAI(View):
@@ -15,13 +19,15 @@ class TalkToAI(View):
 
     def post(self, request):
         try:
-            session_id = request.POST.get("session_id")
-            query = request.POST.get("query")
+            data = json.loads(request.body)
+            query = data["query"]
+            session_id = data["session_id"]
+
         except RuntimeError as e:
             return render(
                 request, "talk_to_ai/home.html", {"error": f"Invalid message {e}"}
             )
-
+        logger.debug(f"in talktoai -> {query=}, {session_id=}")
         msg = self.__use_case.chat_generate_use_case(input_text=query)
         return json_response(
             message="successfully generated response",
