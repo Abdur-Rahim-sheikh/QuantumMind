@@ -13,8 +13,15 @@ class DefaultOllamaNoStream(ChatRepository):
         self.host = host
         self.model = model
         self.client = Client(host=host)
+        self.available_models = set(
+            [model["name"] for model in self.list_local_models()]
+        )
+        if model not in self.available_models:
+            self.pull_model(self.model)
 
-    def set_model(self, model: str) -> None:
+    def change_model(self, model: str) -> None:
+        if model not in self.available_models:
+            self.pull_model(model=model)
         self.model = model
 
     def generate(self, input_text: str) -> str:
@@ -70,8 +77,14 @@ class DefaultOllamaNoStream(ChatRepository):
     def delete_model(self, model_name: str) -> str:
         pass
 
-    def pull_model(self, model_name: str, remote_url: str) -> str:
-        pass
+    def pull_model(self, model) -> None:
+        try:
+            response = self.client.pull(model=model, stream=False)
+        except (ollama.RequestError, ollama.ResponseError) as e:
+            raise RuntimeError(f"Could not pull model: {e}")
+        if response["status"] != "success":
+            raise RuntimeError(f"Could not pull model: {response}")
+        return
 
     def push_model(self, model_name: str, remote_url: str) -> str:
         pass
