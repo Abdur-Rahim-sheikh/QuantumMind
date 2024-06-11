@@ -1,3 +1,4 @@
+const md = window.markdownit();
 let selected_session_id = null;
 document.getElementById('query').addEventListener('keypress', async (e) => {
     if (e.key === 'Enter') {
@@ -48,7 +49,7 @@ const selectSession = (session_id) => {
     let currentSession = document.getElementById(`tab-${session_id}`);
     currentSession.style.fontWeight = 'bold';
     let currentConversation = document.getElementById(session_id);
-    currentSession.classList.remove('d-none');
+    currentConversation.classList.remove('d-none');
 
     selected_session_id = session_id;
 //    make it's text bold
@@ -91,15 +92,24 @@ const createSession = async (session_name) => {
     addSession(responseData.data.session_id, session_name);
     return;
 }
-const getMessageBox = (text, userData=false) => {
+const getMessageBox = (text, userData = false) => {
     let messageContainer = document.createElement('div');
-    messageContainer.classList.add('message-container');
-    messageContainer.innerHTML = `<div class="message">${text}</div>`;
-    if (userData){
-        messageContainer.style.textAlign = 'right';
-    }
+    messageContainer.classList.add('d-flex', userData ? 'justify-content-end' : 'justify-content-start', 'mb-3');
+
+    let logo = userData ? '/static/img/human.jpg' : '/static/img/bot.png';
+    let userClass = userData ? 'bg-light text-dark' : 'bg-primary text-white';
+
+    messageContainer.innerHTML = `
+        <div class="d-flex align-items-start ${userData ? 'flex-row-reverse' : ''}">
+            <img src="${logo}" alt="logo" class="rounded-circle me-2" style="width: 40px; height: 40px;">
+            <div class="p-3 rounded ${userClass}" style="max-width: 60%;">
+                ${md.render(text)}
+            </div>
+        </div>
+    `;
     return messageContainer;
 }
+
 const buildConversation = (session_id, conversations) => {
     let conversationContainer = document.createElement('div');
     conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
@@ -110,12 +120,16 @@ const buildConversation = (session_id, conversations) => {
     return conversationContainer;
 }
 const handleQuery = async () => {
-    const query = document.getElementById('query').value;
+    const queryElement = document.getElementById('query');
+    const query = queryElement.value;
+    queryElement.value = '';
     const session_id = selected_session_id;
     const conversationContainer = document.getElementById(session_id);
-    conversationContainer.appendChild(getMessageBox(query), userData=true);
+    conversationContainer.appendChild(getMessageBox(query, true));
     const responseData = await askQuestion(session_id, query);
+    
     conversationContainer.appendChild(getMessageBox(responseData.data.response));
+
 }
 const renderSessions = async () => {
     const sessions = await getSessions();

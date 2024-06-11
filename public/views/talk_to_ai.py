@@ -27,8 +27,9 @@ class TalkToAI(View):
             return render(
                 request, "talk_to_ai/home.html", {"error": f"Invalid message {e}"}
             )
-        logger.debug(f"in talk to ai -> {query=}, {session_id=}")
+
         msg = self.__use_case.chat_generate_use_case(input_text=query)
+        logger.debug(f"Generated response: {msg} for query: {query}")
         return json_response(
             message="successfully generated response",
             data={

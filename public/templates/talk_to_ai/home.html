@@ -29,6 +29,7 @@
 {% endblock content %}
 
 {% block script %}
+ <script src="https://cdn.jsdelivr.net/npm/markdown-it/dist/markdown-it.min.js"></script>
 <script src="{% static 'js/sidebar.js' %}"></script>
-<script src="{% static 'js/talk_to_ai/home.js' %}"></script>
+<script type= "module" src="{% static 'js/talk_to_ai/home.js' %}"></script>
 {% endblock script %}
