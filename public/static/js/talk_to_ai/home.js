@@ -1,7 +1,13 @@
 let selected_session_id = null;
+document.getElementById('query').addEventListener('keypress', async (e) => {
+    if (e.key === 'Enter') {
+        handleQuery();
+    }
+
+});
+
 document.getElementById('query-submit-button').addEventListener('click', async () => {
-    const query = document.getElementById('query').value;
-    addAIResponse(query);
+    handleQuery();
 });
 document.getElementById('create-session').addEventListener('click', async () => {
     const session_name = 'Session ' + Math.floor(Math.random() * 1000);
@@ -103,7 +109,8 @@ const buildConversation = (session_id, conversations) => {
     })
     return conversationContainer;
 }
-const addAIResponse = async (query) => {
+const handleQuery = async () => {
+    const query = document.getElementById('query').value;
     const session_id = selected_session_id;
     const conversationContainer = document.getElementById(session_id);
     conversationContainer.appendChild(getMessageBox(query), userData=true);

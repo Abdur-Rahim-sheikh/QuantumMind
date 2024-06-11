@@ -10,5 +10,5 @@ class Repository:
     @property
     def chat_repository(self) -> ChatRepository:
         return DefaultOllamaNoStream(
-            host=f"http://localhost:{env.str('OLLAMA_PORT')}",
+            host=f"http://ollama:11434",
         )
