@@ -1,5 +1,8 @@
 const hamBurger = document.querySelector(".toggle-btn");
 
 hamBurger.addEventListener("click", function () {
-  document.querySelector("#sidebar").classList.toggle("expand");
+  const sideBarElement = document.querySelector("#sidebar");
+  sideBarElement.classList.toggle("expand");
+//  add cursor as pointer
+  sideBarElement.style.cursor = "pointer";
 });
