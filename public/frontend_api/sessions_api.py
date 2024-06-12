@@ -45,5 +45,21 @@ class SessionsAPI(View):
             status_code=201,
         )
 
+    def delete(self, request):
+
+        try:
+            user_id = request.user.id
+            data = json.loads(request.body)
+            session_id = data.get("session_id")
+        except RuntimeError as e:
+            return json_response(
+                success=False, message="Invalid message", status_code=400
+            )
+
+        self.__use_case.delete_session(user_id=user_id, session_id=session_id)
+        return json_response(
+            success=True, message="Successfully deleted the session", status_code=204
+        )
+
 
 # Path: public/frontend_api/emma_gpt_question_api.py
