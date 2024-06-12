@@ -2,7 +2,7 @@ from .repository import Repository
 from ..domain.use_case import ChatGenerateUseCase
 
 
-class UseCase:
+class ServiceUseCase:
     def __init__(self):
         self.__repository = Repository()
 

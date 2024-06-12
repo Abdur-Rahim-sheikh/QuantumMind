@@ -55,7 +55,7 @@ class DefaultSessionRepository(SessionRepository):
     def update(self, session: Session):
         try:
             DBSession.objects.filter(user_id=session.user_id, id=session.id).update(
-                name=session.name, conversations=session.conversations
+                chat_name=session.name, conversations=session.conversations
             )
         except DBSession.DoesNotExist:
             raise RuntimeError(f"Session {session.name} does not exist")
