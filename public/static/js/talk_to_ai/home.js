@@ -140,12 +140,12 @@ const getMessageBox = (text, userData = false) => {
     messageContainer.classList.add('d-flex', userData ? 'justify-content-end' : 'justify-content-start', 'mb-3');
 
     let logo = userData ? '/static/img/human.jpg' : '/static/img/bot.png';
-    let userClass = userData ? 'bg-light text-dark' : 'bg-primary text-white';
+    let userClass = userData ? 'text-bg-light text-dark' : 'text-bg-secondary text-white';
 
     messageContainer.innerHTML = `
         <div class="d-flex align-items-start ${userData ? 'flex-row-reverse' : ''}">
             <img src="${logo}" alt="logo" class="rounded-circle me-2" style="width: 40px; height: 40px;">
-            <div class="p-3 rounded ${userClass}" style="max-width: 60%;">
+            <div class="p-3 rounded ${userClass}" style="max-width: 100%;">
                 ${md.render(text)}
             </div>
         </div>
@@ -157,8 +157,9 @@ const buildConversation = (session_id, conversations) => {
     let conversationContainer = document.createElement('div');
     conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
     conversationContainer.id = session_id;
-    conversations.forEach(message => {
-        conversationContainer.appendChild(getMessageBox(message));
+    conversations.forEach((message, idx) => {
+        let user = ! (idx & 1);
+        conversationContainer.appendChild(getMessageBox(message, user));
     })
     return conversationContainer;
 }

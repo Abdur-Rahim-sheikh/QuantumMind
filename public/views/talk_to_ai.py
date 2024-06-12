@@ -5,9 +5,6 @@ from public.utils import json_response
 from services.di import ServiceUseCase
 from talk_to_ai.di import UseCase
 import json
-import logging
-
-logger = logging.getLogger(__name__)
 
 
 class TalkToAI(View):
@@ -34,7 +31,7 @@ class TalkToAI(View):
         msg = self.__service_use_case.chat_generate_use_case(input_text=query)
         session.conversations += [query, msg]
         self.__use_case.update_session(session)
-        logger.debug(f"Generated response: {msg} for query: {query}")
+
         return json_response(
             message="successfully generated response",
             data={
