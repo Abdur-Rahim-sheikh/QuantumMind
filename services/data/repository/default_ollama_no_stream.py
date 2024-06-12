@@ -84,6 +84,8 @@ class DefaultOllamaNoStream(ChatRepository):
             raise RuntimeError(f"Could not pull model: {e}")
         if response["status"] != "success":
             raise RuntimeError(f"Could not pull model: {response}")
+
+        self.available_models.add(model)
         return
 
     def push_model(self, model_name: str, remote_url: str) -> str:
