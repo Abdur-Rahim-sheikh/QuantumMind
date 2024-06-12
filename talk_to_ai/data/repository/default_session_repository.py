@@ -1,10 +1,10 @@
 import logging
+from typing import Optional
 
 from public.models import ChatSession as DBSession
 from public.utils import singleton
 from talk_to_ai.domain.models import Session
 from talk_to_ai.domain.repository import SessionRepository
-from typing import Optional
 
 logger = logging.getLogger(__name__)
 
@@ -61,7 +61,10 @@ class DefaultSessionRepository(SessionRepository):
             raise RuntimeError(f"Session {session.name} does not exist")
 
     def delete(self, user_id: int, session_id: int):
-        pass
+        try:
+            DBSession.objects.filter(user_id=user_id, id=session_id).delete()
+        except DBSession.DoesNotExist:
+            raise RuntimeError(f"Session {session_id} does not exist")
 
     def exists(self, user_id: int, session_id: int) -> bool:
         return DBSession.objects.filter(user_id=user_id, id=session_id).exists()
