@@ -52,8 +52,38 @@ const selectSession = (session_id) => {
     currentConversation.classList.remove('d-none');
 
     selected_session_id = session_id;
-//    make it's text bold
+    //    make it's text bold
 }
+const deleteSession = async (session_id) => {
+    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+    const response = await fetch(`/frontend-api/v1/sessions`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': csrfToken
+        },
+        body: JSON.stringify({ "session_id": session_id })
+    });
+
+    if (response.ok === false) {
+        alert('Failed to delete session');
+        return;
+    }
+
+    let sessionTab = document.getElementById(`tab-${session_id}`);
+    sessionTab.remove();
+    let sessionContainer = document.getElementById(session_id);
+    sessionContainer.remove();
+    const sessionTabs = document.getElementById('session-tabs');
+    let tabs = sessionTabs.querySelectorAll('.sidebarItem');
+    if (tabs.length > 0) {
+        selectSession(tabs[0].id.split('-')[1]);
+    }
+    else {
+        selected_session_id = null;
+    }
+}
+
 const addSession = async (session_id, session_name, conversations=[]) => {
     const sessionContainer = document.getElementById('conversation-container');
     let session = await buildConversation(session_id, conversations);
@@ -61,15 +91,28 @@ const addSession = async (session_id, session_name, conversations=[]) => {
     const sessionTabs = document.getElementById('session-tabs');
     let tab = document.createElement('li');
     tab.id = `tab-${session_id}`;
-
     tab.classList.add('sidebar-item');
+    tab.tabIndex = 0;
 
-    tab.innerHTML = `<a class="sidebar-link" href="#">
-                        <i class="bi bi-chat-left-text"></i>
-                        <span>${session_name}<span>
-                    </a>`;
+
+    let link = document.createElement('a');
+    link.classList.add('sidebar-link');
+    let icon = document.createElement('i');
+    icon.classList.add('bi', 'bi-chat-left-text');
+    link.appendChild(icon);
+    let span = document.createElement('span');
+    span.textContent = session_name;
+
+    link.appendChild(span);
+    tab.appendChild(link);
     tab.addEventListener('click', () => {
         selectSession(session_id);
+    });
+    tab.addEventListener('keydown', (e) => {
+
+        if (e.key === 'Delete') {
+            deleteSession(session_id);
+        }
     });
     sessionTabs.appendChild(tab);
     selectSession(session_id);
@@ -127,7 +170,7 @@ const handleQuery = async () => {
     const conversationContainer = document.getElementById(session_id);
     conversationContainer.appendChild(getMessageBox(query, true));
     const responseData = await askQuestion(session_id, query);
-    
+
     conversationContainer.appendChild(getMessageBox(responseData.data.response));
 
 }
