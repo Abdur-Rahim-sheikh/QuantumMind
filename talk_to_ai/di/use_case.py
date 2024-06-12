@@ -3,6 +3,7 @@ from ..domain.use_case import (
     GetAllSessionUseCase,
     CreateSessionUseCase,
     GetSessionUseCase,
+    UpdateSessionUseCase,
 )
 
 
@@ -21,3 +22,7 @@ class UseCase:
     @property
     def get_session(self) -> GetSessionUseCase:
         return GetSessionUseCase(repository=self.__repository.session_repository)
+
+    @property
+    def update_session(self) -> UpdateSessionUseCase:
+        return UpdateSessionUseCase(repository=self.__repository.session_repository)

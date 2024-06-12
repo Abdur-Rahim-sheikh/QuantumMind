@@ -17,7 +17,7 @@ class SessionRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, user_id: int, session: Session):
+    def update(self, session: Session) -> None:
         pass
 
     @abstractmethod
