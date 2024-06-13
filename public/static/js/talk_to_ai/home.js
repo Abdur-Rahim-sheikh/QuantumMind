@@ -1,10 +1,16 @@
 const md = window.markdownit();
 let selected_session_id = null;
+
+const sessionTabs = document.getElementById('session-tabs');
+const sessionContainer = document.getElementById('session-container');
+const queryElement = document.getElementById('query');
+const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
+
 document.getElementById('query').addEventListener('keypress', async (e) => {
     if (e.key === 'Enter') {
         handleQuery();
     }
-
 });
 
 document.getElementById('query-submit-button').addEventListener('click', async () => {
@@ -17,7 +23,6 @@ document.getElementById('create-session').addEventListener('click', async () => 
 
 
 const askQuestion = async (session_id, query) => {
-    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
     const response = await fetch('/talk-to-ai', {
         method: 'POST',
         headers: {
@@ -41,21 +46,21 @@ const getSessions = async () => {
 
 const selectSession = (session_id) => {
     if (selected_session_id != null){
-        let oldSession = document.getElementById(`tab-${selected_session_id}`);
+        let oldSession = sessionTabs.querySelector(`#tab-${selected_session_id}`);
         oldSession.style.fontWeight = 'normal';
-        let oldConversation = document.getElementById(selected_session_id);
+        let oldConversation = sessionContainer.querySelector(`[id='${selected_session_id}'`);
         oldConversation.classList.add('d-none');
     }
-    let currentSession = document.getElementById(`tab-${session_id}`);
+    let currentSession = sessionTabs.querySelector(`#tab-${session_id}`);
     currentSession.style.fontWeight = 'bold';
-    let currentConversation = document.getElementById(session_id);
+    let currentConversation = sessionContainer.querySelector(`[id='${session_id}'`);
     currentConversation.classList.remove('d-none');
 
     selected_session_id = session_id;
     //    make it's text bold
 }
 const deleteSession = async (session_id) => {
-    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
+
     const response = await fetch(`/frontend-api/v1/sessions`, {
         method: 'DELETE',
         headers: {
@@ -70,11 +75,11 @@ const deleteSession = async (session_id) => {
         return;
     }
 
-    let sessionTab = document.getElementById(`tab-${session_id}`);
+    let sessionTab = sessionTabs.querySelector(`#tab-${session_id}`);
     sessionTab.remove();
-    let sessionContainer = document.getElementById(session_id);
+    let sessionContainer = sessionContainer.querySelector(`#session_id`);
     sessionContainer.remove();
-    const sessionTabs = document.getElementById('session-tabs');
+
     let tabs = sessionTabs.querySelectorAll('.sidebarItem');
     if (tabs.length > 0) {
         selectSession(tabs[0].id.split('-')[1]);
@@ -85,10 +90,10 @@ const deleteSession = async (session_id) => {
 }
 
 const addSession = async (session_id, session_name, conversations=[]) => {
-    const sessionContainer = document.getElementById('conversation-container');
+
     let session = await buildConversation(session_id, conversations);
     sessionContainer.appendChild(session);
-    const sessionTabs = document.getElementById('session-tabs');
+
     let tab = document.createElement('li');
     tab.id = `tab-${session_id}`;
     tab.classList.add('sidebar-item');
@@ -118,8 +123,6 @@ const addSession = async (session_id, session_name, conversations=[]) => {
     selectSession(session_id);
 }
 const createSession = async (session_name) => {
-    const csrfToken = document.querySelector('input[name="csrfmiddlewaretoken"]').value;
-
     const response = await fetch('/frontend-api/v1/sessions', {
         method: 'POST',
         headers: {
@@ -155,7 +158,7 @@ const getMessageBox = (text, userData = false) => {
 
 const buildConversation = (session_id, conversations) => {
     let conversationContainer = document.createElement('div');
-    conversationContainer.classList.add('conversation-container','w-100', 'h-100', 'd-flex', 'flex-column','d-none');
+    conversationContainer.classList.add('conversation-container','d-none');
     conversationContainer.id = session_id;
     conversations.forEach((message, idx) => {
         let user = ! (idx & 1);
@@ -164,11 +167,11 @@ const buildConversation = (session_id, conversations) => {
     return conversationContainer;
 }
 const handleQuery = async () => {
-    const queryElement = document.getElementById('query');
+
     const query = queryElement.value;
     queryElement.value = '';
     const session_id = selected_session_id;
-    const conversationContainer = document.getElementById(session_id);
+    const conversationContainer = sessionContainer.querySelector(`#${session_id}`);
     conversationContainer.appendChild(getMessageBox(query, true));
     const responseData = await askQuestion(session_id, query);
 
