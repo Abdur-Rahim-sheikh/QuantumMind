@@ -62,3 +62,31 @@ class ChatSession(models.Model):
 
     def __str__(self):
         return str(self.chat_name) + " " + str(self.user)
+
+
+class CustomModel(models.Model):
+    user = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+    )
+    model_name = models.CharField(max_length=100)
+    model_from = models.CharField(max_length=100)
+    system_instruction = models.TextField()
+    parameters = models.JSONField(default=dict)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def clean(self):
+        self.validate_model_name(
+            model_name=str(self.model_name), username=self.user.username
+        )
+
+    @staticmethod
+    def validate_model_name(model_name: str, username: str) -> None:
+        parts = model_name.split("/")
+        if len(parts) != 2 or parts[0] != username or not parts[1]:
+            raise ValidationError("Model name must be in the format of 'owner/model'")
+
+    def save(self, *args, **kwargs):
+        self.clean()
+        super().save(*args, **kwargs)

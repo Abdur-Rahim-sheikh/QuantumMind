@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from public.models import Account, App, ChatSession
+from public.models import Account, App, ChatSession, CustomModel
 
 admin.site.site_header = "Quantum Mind"
 # Register your models here.
@@ -35,4 +35,15 @@ class ChatSessionAdmin(admin.ModelAdmin):
         "user",
         "chat_name",
         "conversations",
+    )
+
+
+@admin.register(CustomModel)
+class CustomModelAdmin(admin.ModelAdmin):
+    list_display = (
+        "user",
+        "model_name",
+        "model_from",
+        "system_instruction",
+        "parameters",
     )
