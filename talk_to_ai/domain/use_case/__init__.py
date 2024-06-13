@@ -1,5 +1,6 @@
 from .create_session_use_case import CreateSessionUseCase
 from .delete_session_use_case import DeleteSessionUseCase
+from .exists_session_use_case import ExistsSessionUseCase
 from .get_all_session_use_case import GetAllSessionUseCase
 from .get_session_use_case import GetSessionUseCase
 from .update_session_use_case import UpdateSessionUseCase

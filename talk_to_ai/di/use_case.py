@@ -5,6 +5,7 @@ from ..domain.use_case import (
     GetSessionUseCase,
     UpdateSessionUseCase,
     DeleteSessionUseCase,
+    ExistsSessionUseCase,
 )
 
 
@@ -31,3 +32,7 @@ class UseCase:
     @property
     def delete_session(self) -> DeleteSessionUseCase:
         return DeleteSessionUseCase(repository=self.__repository.session_repository)
+
+    @property
+    def exists_session(self) -> ExistsSessionUseCase:
+        return ExistsSessionUseCase(repository=self.__repository.session_repository)
