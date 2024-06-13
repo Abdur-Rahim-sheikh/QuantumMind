@@ -171,7 +171,7 @@ const handleQuery = async () => {
     const query = queryElement.value;
     queryElement.value = '';
     const session_id = selected_session_id;
-    const conversationContainer = sessionContainer.querySelector(`#${session_id}`);
+    const conversationContainer = sessionContainer.querySelector(`[id='${session_id}']`);
     conversationContainer.appendChild(getMessageBox(query, true));
     const responseData = await askQuestion(session_id, query);
 
