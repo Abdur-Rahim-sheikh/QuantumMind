@@ -1,13 +1,18 @@
 from abc import ABC, abstractmethod
+from typing import Optional
 
 
 class ChatRepository(ABC):
     @abstractmethod
-    def generate(self, input_text: str) -> str:
+    def generate(
+        self,
+        input_text: str,
+        system: Optional[str],
+    ) -> str:
         pass
 
     @abstractmethod
-    def complete(self, chat_history: list[str], context: str) -> str:
+    def complete(self, chat_history: dict, context: str) -> str:
         pass
 
     @abstractmethod

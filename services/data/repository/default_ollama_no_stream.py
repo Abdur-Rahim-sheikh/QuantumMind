@@ -1,5 +1,6 @@
 import logging
 from typing import Optional
+
 import ollama
 from ollama import Client
 
@@ -24,23 +25,22 @@ class DefaultOllamaNoStream(ChatRepository):
             self.pull_model(model=model)
         self.model = model
 
-    def generate(self, input_text: str) -> str:
+    def generate(self, input_text: str, system: Optional[str]) -> str:
         # try:
         logger.debug(
             f"{self.client.generate(model=self.model, prompt=input_text, stream=False)=}"
         )
         response = self.client.generate(
-            model=self.model, prompt=input_text, stream=False
+            model=self.model, prompt=input_text, system=system, stream=False
         )
         # except (ollama.RequestError, ollama.ResponseError) as e:
         #     raise RuntimeError(f"Could not generate ai chat: {e}")
         return response["response"]
 
-    def complete(self, chat_history: list[str], context: str) -> str:
+    def complete(self, chat_history: dict, context: str) -> str:
         messages = []
-        for i, message in enumerate(chat_history):
-            role = "user" if i % 2 == 0 else "assistant"
-            messages.append({"role": role, "content": message})
+        for key, data in chat_history.items():
+            messages.append({"role": data["role"], "content": data["content"]})
 
         messages.append({"role": "user", "content": context})
         try:
