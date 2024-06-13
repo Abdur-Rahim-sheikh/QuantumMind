@@ -77,15 +77,13 @@ const deleteSession = async (session_id) => {
 
     let sessionTab = sessionTabs.querySelector(`#tab-${session_id}`);
     sessionTab.remove();
-    let sessionContainer = sessionContainer.querySelector(`#session_id`);
-    sessionContainer.remove();
+    let sessionConversation = sessionContainer.querySelector(`[id='${session_id}']`);
+    sessionConversation.remove();
 
     let tabs = sessionTabs.querySelectorAll('.sidebarItem');
+    selected_session_id = null;
     if (tabs.length > 0) {
         selectSession(tabs[0].id.split('-')[1]);
-    }
-    else {
-        selected_session_id = null;
     }
 }
 
@@ -96,7 +94,7 @@ const addSession = async (session_id, session_name, conversations=[]) => {
 
     let tab = document.createElement('li');
     tab.id = `tab-${session_id}`;
-    tab.classList.add('sidebar-item');
+    tab.classList.add('sidebarItem');
     tab.tabIndex = 0;
 
 
