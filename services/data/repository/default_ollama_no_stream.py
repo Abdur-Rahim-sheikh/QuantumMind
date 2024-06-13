@@ -37,9 +37,9 @@ class DefaultOllamaNoStream(ChatRepository):
         #     raise RuntimeError(f"Could not generate ai chat: {e}")
         return response["response"]
 
-    def complete(self, chat_history: dict, context: str) -> str:
+    def complete(self, chat_history: list[dict], context: str) -> str:
         messages = []
-        for key, data in chat_history.items():
+        for data in chat_history:
             messages.append({"role": data["role"], "content": data["content"]})
 
         messages.append({"role": "user", "content": context})

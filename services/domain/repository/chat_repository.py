@@ -12,7 +12,7 @@ class ChatRepository(ABC):
         pass
 
     @abstractmethod
-    def complete(self, chat_history: dict, context: str) -> str:
+    def complete(self, chat_history: list[dict], context: str) -> str:
         pass
 
     @abstractmethod
