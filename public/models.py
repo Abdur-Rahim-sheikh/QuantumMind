@@ -69,24 +69,41 @@ class CustomModel(models.Model):
         Account,
         on_delete=models.CASCADE,
     )
-    model_name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100)
     model_from = models.CharField(max_length=100)
-    system_instruction = models.TextField()
+    description = models.TextField()
+    gender = models.CharField(max_length=100, default="neutral")
+    avatar = models.TextField(
+        null=True, blank=True, help_text="Base64 image of the avatar"
+    )
+    status = models.CharField(max_length=100, default="active")
+    language = models.CharField(max_length=100, default="en")
+    age = models.IntegerField(default=18)
     parameters = models.JSONField(default=dict)
+    private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def clean(self):
-        self.validate_model_name(
-            model_name=str(self.model_name), username=self.user.username
-        )
+        self.validate_model_name(model_name=str(self.name), username=self.user.username)
 
     @staticmethod
     def validate_model_name(model_name: str, username: str) -> None:
         parts = model_name.split("/")
         if len(parts) != 2 or parts[0] != username or not parts[1]:
-            raise ValidationError("Model name must be in the format of 'owner/model'")
+            raise ValidationError("Model name must be in the format of 'owner/models'")
 
     def save(self, *args, **kwargs):
         self.clean()
         super().save(*args, **kwargs)
+
+
+class BotFriend(models.Model):
+    user = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+    )
+    custom_model = models.ForeignKey(CustomModel, on_delete=models.RESTRICT)
+    conversations = models.JSONField(default=list[dict])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)

@@ -42,8 +42,8 @@ class ChatSessionAdmin(admin.ModelAdmin):
 class CustomModelAdmin(admin.ModelAdmin):
     list_display = (
         "user",
-        "model_name",
+        "name",
         "model_from",
-        "system_instruction",
+        "description",
         "parameters",
     )
