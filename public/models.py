@@ -36,7 +36,7 @@ class ChatSession(models.Model):
         on_delete=models.CASCADE,
     )
     chat_name = models.CharField(max_length=100)
-    conversations = models.JSONField(default=list)
+    conversations = models.JSONField(default=list[dict])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

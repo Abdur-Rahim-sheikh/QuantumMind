@@ -43,8 +43,8 @@ class DefaultOllamaNoStream(ChatRepository):
             messages.append({"role": data["role"], "content": data["content"]})
 
         messages.append({"role": "user", "content": context})
-        try:
 
+        try:
             response = self.client.chat(
                 model=self.model, messages=messages, stream=False
             )

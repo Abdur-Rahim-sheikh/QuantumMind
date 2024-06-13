@@ -158,9 +158,10 @@ const buildConversation = (session_id, conversations) => {
     let conversationContainer = document.createElement('div');
     conversationContainer.classList.add('conversation-container','d-none');
     conversationContainer.id = session_id;
-    conversations.forEach((message, idx) => {
-        let user = ! (idx & 1);
-        conversationContainer.appendChild(getMessageBox(message, user));
+    conversations.forEach((data, idx) => {
+        let message = data.content;
+        let role = data.role;
+        conversationContainer.appendChild(getMessageBox(message, role==='user'));
     })
     return conversationContainer;
 }
