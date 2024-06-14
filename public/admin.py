@@ -43,8 +43,11 @@ class CustomModelAdmin(admin.ModelAdmin):
     list_display = (
         "user",
         "name",
+        "gender",
+        "age",
+        "profession",
         "model_from",
-        "description",
+        "more_info",
         "parameters",
     )
 
