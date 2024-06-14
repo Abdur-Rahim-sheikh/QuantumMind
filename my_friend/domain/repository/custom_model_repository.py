@@ -1,19 +1,20 @@
 from abc import ABC, abstractmethod
+
 from ..models import CustomModel
 
 
 class CustomModelRepository(ABC):
 
     @abstractmethod
-    def create(self, user_id, model: CustomModel) -> None:
+    def create(self, user_id: int, model: CustomModel) -> None:
         pass
 
     @abstractmethod
-    def get(self, user_id, model_id: int) -> CustomModel:
+    def get(self, user_id: int, model_id: int) -> CustomModel:
         pass
 
     @abstractmethod
-    def get_all(self, user_id) -> list[CustomModel]:
+    def get_all(self, user_id: int) -> list[CustomModel]:
         pass
 
     @abstractmethod
@@ -21,17 +22,17 @@ class CustomModelRepository(ABC):
         pass
 
     @abstractmethod
-    def update(self, user_id, model: CustomModel) -> None:
+    def update(self, user_id: int, model: CustomModel) -> None:
         pass
 
     @abstractmethod
-    def delete(self, user_id, model_id: int) -> None:
+    def delete(self, pk: int) -> None:
         pass
 
     @abstractmethod
-    def delete_all(self, user_id) -> None:
+    def delete_all(self, user_id: int) -> None:
         pass
 
     @abstractmethod
-    def exists(self, user_id, model_id: int) -> bool:
+    def exists(self, user_id: int, pk: int) -> bool:
         pass
