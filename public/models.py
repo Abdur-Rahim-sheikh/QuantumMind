@@ -67,7 +67,8 @@ class ChatSession(models.Model):
 class CustomModel(models.Model):
     user = models.ForeignKey(
         Account,
-        on_delete=models.CASCADE,
+        null=True,
+        on_delete=models.SET_NULL,
     )
     name = models.CharField(max_length=100)
     model_from = models.CharField(max_length=100)
@@ -103,7 +104,7 @@ class BotFriend(models.Model):
         Account,
         on_delete=models.CASCADE,
     )
-    custom_model = models.ForeignKey(CustomModel, on_delete=models.RESTRICT)
+    custom_model = models.ForeignKey(CustomModel, on_delete=models.CASCADE)
     conversations = models.JSONField(default=list[dict])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
