@@ -1,4 +1,4 @@
-FROM python:3.10-slim-buster
+FROM python:3.12.4-slim-bullseye
 
 WORKDIR /quantum_mind
 
