@@ -1,7 +1,7 @@
 from pydantic import BaseModel
 
 
-class BotFriends(BaseModel):
+class BotFriend(BaseModel):
     id: int
     user_id: int
     model_id: int

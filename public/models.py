@@ -65,24 +65,45 @@ class ChatSession(models.Model):
 
 
 class CustomModel(models.Model):
+    LANGUAGES = [
+        ("bn", "Bengali"),
+        ("en", "English"),
+        ("es", "Spanish"),
+        ("fr", "French"),
+        ("de", "German"),
+        ("it", "Italian"),
+        ("pt", "Portuguese"),
+        ("ru", "Russian"),
+        ("zh", "Chinese"),
+        ("ja", "Japanese"),
+        ("ko", "Korean"),
+    ]
     user = models.ForeignKey(
         Account,
-        on_delete=models.CASCADE,
+        null=True,
+        on_delete=models.SET_NULL,
     )
-    name = models.CharField(max_length=100)
-    model_from = models.CharField(max_length=100)
-    description = models.TextField()
-    gender = models.CharField(max_length=100, default="neutral")
+    name = models.CharField(max_length=50)
+    model_from = models.CharField(max_length=50)
+    gender = models.CharField(max_length=10, default="neutral")
     avatar = models.TextField(
         null=True, blank=True, help_text="Base64 image of the avatar"
     )
-    status = models.CharField(max_length=100, default="active")
-    language = models.CharField(max_length=100, default="en")
+    status = models.CharField(max_length=20, default="active")
+    language = models.CharField(max_length=50, choices=LANGUAGES, default="en")
     age = models.IntegerField(default=18)
+    profession = models.CharField(max_length=50, null=True, default="student")
     parameters = models.JSONField(default=dict)
+    more_info = models.TextField()
     private = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    @property
+    def full_information(self):
+        details = f"""Your name is {self.name} and you are a native {self.language} speaker.
+        You are {self.gender}. You are {self.age} years old and you are a {self.profession}. Also, {self.more_info}"""
+        return details
 
     def clean(self):
         self.validate_model_name(model_name=str(self.name), username=self.user.username)
@@ -103,7 +124,7 @@ class BotFriend(models.Model):
         Account,
         on_delete=models.CASCADE,
     )
-    custom_model = models.ForeignKey(CustomModel, on_delete=models.RESTRICT)
+    custom_model = models.ForeignKey(CustomModel, on_delete=models.CASCADE)
     conversations = models.JSONField(default=list[dict])
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
