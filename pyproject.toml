@@ -5,10 +5,10 @@ description = ""
 authors = ["Abdur-Rahim-sheikh <abi.rahim.sheikh@gmail.com>"]
 readme = "README.md"
 packages = [{include = "public"}]
-requires-python = ">=3.10"
+requires-python = ">=3.12"
 dependencies = [
     "django>=5.0.6",
-    "environs>=11.0.0",
+    "environs>=14.1.1",
     "psycopg2-binary>=2.9.9",
     "pydantic>=2.7.3",
     "social-auth-app-django>=5.4.1",
