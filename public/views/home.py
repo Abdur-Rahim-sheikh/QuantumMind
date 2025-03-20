@@ -29,7 +29,7 @@ class Home(View):
         #     },
         # }
 
-        logger.debug("web_apps", web_apps)
+        logger.debug(f"web_apps {web_apps}")
 
         return render(request, "core/home.html", {"web_apps": web_apps})
 
