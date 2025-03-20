@@ -4,7 +4,6 @@ from ..models import CustomModel
 
 
 class CustomModelRepository(ABC):
-
     @abstractmethod
     def create(self, user_id: int, model: CustomModel) -> None:
         pass

@@ -3,7 +3,6 @@ from ..models import BotFriend
 
 
 class BotFriendRepository(ABC):
-
     @abstractmethod
     def create(self, user_id: int, model_id: int) -> None:
         pass

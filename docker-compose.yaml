@@ -1,51 +1,58 @@
 services:
-    web:
-      build: .
-      env_file: .env
-      ports:
-        - "${WEB_PORT}:8000"
+  web:
+    build: .
+    env_file: .env
+    ports:
+      - "${WEB_PORT}:8000"
 
-      networks:
-        - quantum-mind-net
-      restart: always
-      volumes:
-        - ./:/quantum_mind
+    networks:
+      - quantum-mind-net
+    restart: always
+    volumes:
+      - ./accounts:/quantum_mind/accounts
+      - ./core:/quantum_mind/core
+      - ./my_friend:/quantum_mind/my_friend
+      - ./project:/quantum_mind/project
+      - ./public:/quantum_mind/public
+      - ./services:/quantum_mind/services
+      - ./static:/quantum_mind/static
+      - ./talk_to_ai:/quantum_mind/talk_to_ai
 
-      depends_on:
-        - postgresql_db
-        - ollama
+    depends_on:
+      - postgresql_db
+      - ollama
 
-    postgresql_db:
-      image: postgres:14-alpine
-      restart: always
-      env_file: .env
-      ports:
-        - "${POSTGRES_PORT}:5432"
-      volumes:
-        - postgresql_db_data:/var/lib/postgresql/data
-      networks:
-        - quantum-mind-net
+  postgresql_db:
+    image: postgres:14-alpine
+    restart: always
+    env_file: .env
+    ports:
+      - "${POSTGRES_PORT}:5432"
+    volumes:
+      - postgresql_db_data:/var/lib/postgresql/data
+    networks:
+      - quantum-mind-net
 
-    ollama:
-      image: ollama/ollama:latest
-      restart: always
-      ports:
-        - "${OLLAMA_PORT}:11434"
-      env_file: .env
-      volumes:
-        - ollama_data:/root/.ollama
-      deploy:
-        resources:
-          reservations:
-            devices:
-              - driver: nvidia
-                capabilities: [gpu]
-      networks:
-          - quantum-mind-net
+  ollama:
+    image: ollama/ollama:latest
+    restart: always
+    ports:
+      - "${OLLAMA_PORT}:11434"
+    env_file: .env
+    volumes:
+      - ollama_data:/root/.ollama
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+    networks:
+      - quantum-mind-net
 
 volumes:
   postgresql_db_data:
   ollama_data:
 
 networks:
-    quantum-mind-net:
+  quantum-mind-net:

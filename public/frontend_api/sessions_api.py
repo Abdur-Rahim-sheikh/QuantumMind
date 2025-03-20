@@ -46,7 +46,6 @@ class SessionsAPI(View):
         )
 
     def delete(self, request):
-
         try:
             user_id = request.user.id
             data = json.loads(request.body)
