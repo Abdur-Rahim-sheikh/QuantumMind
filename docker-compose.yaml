@@ -50,4 +50,4 @@ volumes:
 
 networks:
     quantum-mind-net:
-        external: true
+        internal: true

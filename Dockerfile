@@ -1,15 +1,13 @@
 FROM python:3.12.4-slim-bullseye
 
-WORKDIR /quantum_mind
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
-RUN pip3 install poetry
-COPY ./pyproject.toml ./poetry.lock ./
-RUN poetry export --only main --output requirements.txt
-RUN pip3 uninstall -y poetry
-RUN pip3 install -r requirements.txt
+WORKDIR /quantum_mind
+COPY ./pyproject.toml ./uv.lock ./
+RUN uv sync --frozen
 
 COPY . .
 
 EXPOSE 8000
 
-CMD ["python3", "manage.py", "runserver"]
+ENTRYPOINT ["./entrypoint.sh"]

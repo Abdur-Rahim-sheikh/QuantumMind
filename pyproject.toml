@@ -1,25 +1,26 @@
-[tool.poetry]
+[project]
 name = "quantum-mind"
 version = "0.1.0"
 description = ""
 authors = ["Abdur-Rahim-sheikh <abi.rahim.sheikh@gmail.com>"]
 readme = "README.md"
 packages = [{include = "public"}]
-
-[tool.poetry.dependencies]
-python = "^3.10"
-django = "^5.0.6"
-environs = "^11.0.0"
-psycopg2-binary = "^2.9.9"
-pydantic = "^2.7.3"
-social-auth-app-django = "^5.4.1"
-django-debug-toolbar = "^4.4.2"
-ollama = "^0.3.0"
-
-[tool.poetry.group.dev.dependencies]
-black = "^24.4.2"
+requires-python = ">=3.10"
+dependencies = [
+    "django>=5.0.6",
+    "environs>=11.0.0",
+    "psycopg2-binary>=2.9.9",
+    "pydantic>=2.7.3",
+    "social-auth-app-django>=5.4.1",
+    "django-debug-toolbar>=4.4.2",
+    "ollama>=0.3.0",
+]
 
 
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+lint = [
+    "ruff>=0.9.9",
+]
