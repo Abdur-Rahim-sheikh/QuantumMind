@@ -2,7 +2,6 @@ from pydantic import BaseModel
 from django.contrib.auth.models import User
 import base64
 class Urls(BaseModel):
-    user: User
     title: str
     description: str = None
     image: base64 = None
