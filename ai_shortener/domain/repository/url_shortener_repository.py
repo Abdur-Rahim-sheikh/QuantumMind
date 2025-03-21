@@ -8,7 +8,7 @@ class UrlShortenerRepository(ABC):
         raise NotImplementedError("Implement the save method")
 
     @abstractmethod
-    def get(self, short_url: str) -> Url:
+    def get(self, long_url: str) -> Url:
         raise NotImplementedError("Implement the get method")
 
     @abstractmethod
