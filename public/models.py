@@ -36,7 +36,7 @@ class ChatSession(models.Model):
         on_delete=models.CASCADE,
     )
     chat_name = models.CharField(max_length=100)
-    conversations = models.JSONField(default=list[dict])
+    conversations = models.JSONField(default=list)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -125,6 +125,20 @@ class BotFriend(models.Model):
         on_delete=models.CASCADE,
     )
     custom_model = models.ForeignKey(CustomModel, on_delete=models.CASCADE)
-    conversations = models.JSONField(default=list[dict])
+    conversations = models.JSONField(default=list)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+class Url(models.Model):
+    user = models.ForeignKey(
+        Account,
+        on_delete=models.CASCADE,
+    )
+    title = models.CharField(max_length=100)
+    description = models.TextField(null=True)
+    image = models.TextField(null=True, blank=True)
+    long_url = models.URLField()
+    short_url = models.URLField()
+    ai_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
