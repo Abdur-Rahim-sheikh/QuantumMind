@@ -10,6 +10,7 @@ services:
     restart: always
     volumes:
       - ./accounts:/quantum_mind/accounts
+      - ./ai_shortener:/quantum_mind/ai_shortener
       - ./core:/quantum_mind/core
       - ./my_friend:/quantum_mind/my_friend
       - ./project:/quantum_mind/project
