@@ -46,7 +46,6 @@
 # Clone the repository
 git clone https://github.com/Abdur-Rahim-sheikh/QuantumMind.git
 cd QuantumMind
-docker network create quantum-mind-net
 docker-compose up --build
 ```
 * For login and registration, you need to create a [django superuser](https://www.geeksforgeeks.org/how-to-create-superuser-in-django/).
