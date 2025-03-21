@@ -1,10 +1,10 @@
+import base64
 from abc import ABC, abstractmethod
-from base64 import base64
 
 
 class UrlShortenerRepository(ABC):
     @abstractmethod
-    def save(self, url: str, title: str = None, description: str = None, img: base64 = None) -> str:
+    def shorten(self, url: str, title: str = None, description: str = None, img: base64 = None) -> str:
         raise NotImplementedError("Implement the save method")
 
     @abstractmethod
