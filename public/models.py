@@ -1,6 +1,7 @@
 from django.contrib.auth.models import AbstractUser
 from django.core.exceptions import ValidationError
 from django.db import models
+from nanoid import generate
 
 
 # Create your models here.
@@ -129,6 +130,7 @@ class BotFriend(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
+
 class Url(models.Model):
     user = models.ForeignKey(
         Account,
@@ -136,9 +138,9 @@ class Url(models.Model):
     )
     title = models.CharField(max_length=100)
     description = models.TextField(null=True)
-    image = models.TextField(null=True, blank=True)
-    long_url = models.URLField()
-    short_url = models.URLField()
+    img_base64 = models.TextField(null=True, blank=True)
+    long_url = models.URLField(unique=True)
+    short_url = models.CharField(max_length=10, unique=True, editable=False, default=lambda: generate(size=6))
     ai_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

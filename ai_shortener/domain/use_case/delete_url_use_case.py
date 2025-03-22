@@ -6,5 +6,5 @@ from ..repository import UrlShortenerRepository
 class DeleteUrlUseCase(BaseModel):
     repository: UrlShortenerRepository
 
-    def __call__(self, short_url: str):
-        return self.repository.delete(short_url=short_url)
+    def __call__(self, pid: int):
+        return self.repository.delete(pid=pid)
