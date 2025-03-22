@@ -4,9 +4,9 @@ from pydantic import BaseModel
 
 
 class Url(BaseModel):
-    title: str
-    description: str = None
-    image: base64 = None
     long_url: str
     short_url: str
+    title: str = None
+    description: str = None
+    image: base64 = None
     ai_url: str = None

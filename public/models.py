@@ -134,9 +134,10 @@ class BotFriend(models.Model):
 class Url(models.Model):
     user = models.ForeignKey(
         Account,
-        on_delete=models.CASCADE,
+        on_delete=models.DO_NOTHING,
+        null = True
     )
-    title = models.CharField(max_length=100)
+    title = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True)
     img_base64 = models.TextField(null=True, blank=True)
     long_url = models.URLField(unique=True)

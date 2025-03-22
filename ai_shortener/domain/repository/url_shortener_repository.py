@@ -7,7 +7,7 @@ from ..models import Url
 
 class UrlShortenerRepository(ABC):
     @abstractmethod
-    def shorten(self, long_url: str, title: str = None, description: str = None, img: base64 = None) -> str:
+    def shorten(self, long_url: str, title: str = None, description: str = None, img: base64 = None) -> Url:
         raise NotImplementedError("Implement the save method")
 
     @abstractmethod

@@ -7,18 +7,18 @@ from public.models import Url as DBUrl
 
 
 class DefaultUrlShortenerRepository(UrlShortenerRepository):
-    def shorten(self, long_url: str, title: str = None, description: str = None, img: base64 = None) -> str:
+    def shorten(self, long_url: str, title: str = None, description: str = None, img: base64 = None) -> Url:
         if DBUrl.objects.filter(long_url=long_url).exists():
             return DBUrl.objects.get(pid=long_url).short_url
 
-        long_url = DBUrl.objects.create(
+        url = DBUrl.objects.create(
             title=title,
             description=description,
             img_base64=img,
             long_url=long_url,
         )
 
-        return long_url.short_url
+        return url
 
     def get(self, pid: int) -> Optional[Url]:
         try:
