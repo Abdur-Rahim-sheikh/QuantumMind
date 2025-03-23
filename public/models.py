@@ -131,17 +131,21 @@ class BotFriend(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
 
+def generate_short_url():
+    return generate(size=6)
+
+
 class Url(models.Model):
     user = models.ForeignKey(
         Account,
         on_delete=models.DO_NOTHING,
-        null = True
+        null=True
     )
     title = models.CharField(max_length=100, null=True)
     description = models.TextField(null=True)
     img_base64 = models.TextField(null=True, blank=True)
     long_url = models.URLField(unique=True)
-    short_url = models.CharField(max_length=10, unique=True, editable=False, default=lambda: generate(size=6))
+    short_url = models.CharField(max_length=10, unique=True, editable=False, default=generate_short_url)
     ai_url = models.URLField(null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

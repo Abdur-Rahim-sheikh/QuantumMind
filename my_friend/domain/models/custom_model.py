@@ -1,8 +1,7 @@
+import base64
 from datetime import datetime
-from typing import Optional
 
 from pydantic import BaseModel
-from pydantic.typing import base64
 
 
 class CustomModel(BaseModel):
@@ -12,10 +11,14 @@ class CustomModel(BaseModel):
     model_from: str
     description: str
     gender: str
-    avatar: Optional[base64]
+    avatar: bytes
     status: str
     language: str
     age: float
     since: datetime
     parameters: dict
     private: bool
+
+    @property
+    def avatar_base64(self):
+        return base64.b64encode(self.avatar).decode("utf-8") if self.avatar else None
