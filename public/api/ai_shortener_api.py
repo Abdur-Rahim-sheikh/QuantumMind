@@ -6,7 +6,7 @@ from ai_shortener.di.use_case import UseCase
 from public.utils import json_response
 
 
-class AIShortener(View):
+class AIShortenerAPI(View):
     def __init__(self):
         super().__init__()
         self.__use_case = UseCase()

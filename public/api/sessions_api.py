@@ -60,4 +60,4 @@ class SessionsAPI(View):
             success=True, message="Successfully deleted the session", status_code=204
         )
 
-# Path: public/frontend_api/emma_gpt_question_api.py
+# Path: public/api/emma_gpt_question_api.py
